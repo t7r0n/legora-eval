@@ -1,0 +1,29 @@
+[project]
+name = "legora-eval"
+version = "0.1.0"
+description = "Local legal-agent evaluation harness for citation grounding, redlines, jurisdiction, and tool routing."
+readme = "README.md"
+authors = [
+    { name = "Tarun Aditya Kusupati" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.5.2",
+    "jinja2>=3.1.6",
+    "pydantic>=2.13.4",
+    "rich>=15.0.0",
+    "typer>=0.25.1",
+]
+
+[project.scripts]
+legora-eval = "legora_eval.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.9.21,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "ruff>=0.15.13",
+]

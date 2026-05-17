@@ -1,0 +1,222 @@
+{
+  "documents": [
+    {
+      "id": "spa-uk-001",
+      "title": "Synthetic UK Share Purchase Agreement",
+      "jurisdiction": "UK",
+      "sections": [
+        {
+          "id": "2.1",
+          "title": "Completion",
+          "jurisdiction": "UK",
+          "defined_terms": false,
+          "text": "Completion shall take place on the fifth business day after the satisfaction or waiver of the conditions in clause 3.1."
+        },
+        {
+          "id": "3.1",
+          "title": "Conditions",
+          "jurisdiction": "UK",
+          "defined_terms": false,
+          "text": "The Buyer is not obliged to complete unless the regulatory consent condition and financing confirmation have each been satisfied."
+        },
+        {
+          "id": "7.4",
+          "title": "Seller Warranty",
+          "jurisdiction": "UK",
+          "defined_terms": false,
+          "text": "The Seller warrants that no material customer contract has been terminated or amended outside the ordinary course since the accounts date."
+        },
+        {
+          "id": "12.2",
+          "title": "Defined Terms",
+          "jurisdiction": "UK",
+          "defined_terms": true,
+          "text": "Material Contract means any contract generating annual recurring revenue above two hundred fifty thousand pounds or containing exclusivity."
+        }
+      ]
+    },
+    {
+      "id": "edgar-10k-001",
+      "title": "Synthetic EDGAR Risk Factor Excerpt",
+      "jurisdiction": "US-DE",
+      "sections": [
+        {
+          "id": "1A",
+          "title": "Risk Factors",
+          "jurisdiction": "US-DE",
+          "defined_terms": false,
+          "text": "Revenue depends on a small number of enterprise customers and loss of any principal account could materially reduce operating results."
+        },
+        {
+          "id": "8.1",
+          "title": "Indemnity",
+          "jurisdiction": "US-DE",
+          "defined_terms": false,
+          "text": "The supplier shall indemnify the customer for third party claims arising from willful misconduct, fraud, or breach of confidentiality."
+        },
+        {
+          "id": "9.3",
+          "title": "Limitation of Liability",
+          "jurisdiction": "US-DE",
+          "defined_terms": false,
+          "text": "Neither party excludes liability for fraud, willful misconduct, or payment obligations accrued before termination."
+        }
+      ]
+    },
+    {
+      "id": "gdpr-eu-001",
+      "title": "Synthetic GDPR Processing Basis Extract",
+      "jurisdiction": "EU",
+      "sections": [
+        {
+          "id": "6.1",
+          "title": "Lawfulness",
+          "jurisdiction": "EU",
+          "defined_terms": false,
+          "text": "Processing is lawful only if the data subject has given consent or processing is necessary for a contract, legal obligation, vital interests, public task, or legitimate interests."
+        },
+        {
+          "id": "28.3",
+          "title": "Processor Terms",
+          "jurisdiction": "EU",
+          "defined_terms": false,
+          "text": "Processing by a processor shall be governed by a contract setting out subject matter, duration, nature, purpose, data types, and categories of data subjects."
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "citation-uk-warranty",
+      "suite": "citation",
+      "title": "Ground an M&A warranty answer",
+      "prompt": "Identify the clause that supports a customer-contract warranty issue in the UK SPA.",
+      "document_ids": ["spa-uk-001"],
+      "expected_answer": "The relevant warranty is clause 7.4 because it covers termination or amendment of material customer contracts outside the ordinary course.",
+      "gold_citations": [
+        {
+          "document_id": "spa-uk-001",
+          "section_id": "7.4",
+          "quote": "no material customer contract has been terminated or amended outside the ordinary course",
+          "jurisdiction": "UK"
+        }
+      ],
+      "gold_redline_ops": [],
+      "gold_tool_calls": [
+        { "name": "legal_research", "args": { "document": "spa-uk-001" } },
+        { "name": "citation_grounder", "args": { "section": "7.4" } }
+      ],
+      "jurisdiction_tag": "UK",
+      "regression_expected_for": ["model-swap-regression"]
+    },
+    {
+      "id": "redline-defined-term",
+      "suite": "redline",
+      "title": "Redline a defined term threshold",
+      "prompt": "Update the Material Contract definition to include exclusivity and a GBP threshold without weakening the concept.",
+      "document_ids": ["spa-uk-001"],
+      "expected_answer": "The definition should preserve the revenue threshold and exclusivity trigger.",
+      "gold_citations": [
+        {
+          "document_id": "spa-uk-001",
+          "section_id": "12.2",
+          "quote": "annual recurring revenue above two hundred fifty thousand pounds or containing exclusivity",
+          "jurisdiction": "UK"
+        }
+      ],
+      "gold_redline_ops": [
+        {
+          "op": "replace",
+          "section_id": "12.2",
+          "text": "Material Contract means any contract generating annual recurring revenue above two hundred fifty thousand pounds or containing exclusivity.",
+          "weight": 1.4
+        }
+      ],
+      "gold_tool_calls": [
+        { "name": "document_search", "args": { "query": "Material Contract" } },
+        { "name": "redline_editor", "args": { "section": "12.2" } },
+        { "name": "citation_grounder", "args": { "section": "12.2" } }
+      ],
+      "jurisdiction_tag": "UK",
+      "regression_expected_for": ["model-swap-regression"]
+    },
+    {
+      "id": "jurisdiction-gdpr",
+      "suite": "jurisdiction",
+      "title": "Distinguish EU processing basis",
+      "prompt": "Answer using the EU processing basis extract and do not substitute a Delaware contract rule.",
+      "document_ids": ["gdpr-eu-001"],
+      "expected_answer": "The EU lawful processing bases include consent, contract necessity, legal obligation, vital interests, public task, and legitimate interests.",
+      "gold_citations": [
+        {
+          "document_id": "gdpr-eu-001",
+          "section_id": "6.1",
+          "quote": "consent or processing is necessary for a contract, legal obligation, vital interests, public task, or legitimate interests",
+          "jurisdiction": "EU"
+        }
+      ],
+      "gold_redline_ops": [],
+      "gold_tool_calls": [
+        { "name": "jurisdiction_filter", "args": { "jurisdiction": "EU" } },
+        { "name": "legal_research", "args": { "document": "gdpr-eu-001" } },
+        { "name": "citation_grounder", "args": { "section": "6.1" } }
+      ],
+      "jurisdiction_tag": "EU",
+      "regression_expected_for": ["model-swap-regression"]
+    },
+    {
+      "id": "tool-routing-diligence",
+      "suite": "tool-routing",
+      "title": "Use tabular review for multi-document diligence",
+      "prompt": "Create a diligence matrix for principal account risk, indemnity carveouts, and liability exclusions.",
+      "document_ids": ["edgar-10k-001", "spa-uk-001"],
+      "expected_answer": "The workflow should route through tabular review before drafting a summarized matrix.",
+      "gold_citations": [
+        {
+          "document_id": "edgar-10k-001",
+          "section_id": "1A",
+          "quote": "loss of any principal account could materially reduce operating results",
+          "jurisdiction": "US-DE"
+        },
+        {
+          "document_id": "edgar-10k-001",
+          "section_id": "9.3",
+          "quote": "Neither party excludes liability for fraud, willful misconduct, or payment obligations",
+          "jurisdiction": "US-DE"
+        }
+      ],
+      "gold_redline_ops": [],
+      "gold_tool_calls": [
+        { "name": "document_search", "args": { "query": "principal account indemnity liability" } },
+        { "name": "tabular_review", "args": { "columns": ["risk", "source", "owner"] } },
+        { "name": "citation_grounder", "args": { "mode": "matrix" } }
+      ],
+      "jurisdiction_tag": "US-DE",
+      "regression_expected_for": ["model-swap-regression"]
+    },
+    {
+      "id": "citation-processor-terms",
+      "suite": "citation",
+      "title": "Ground processor contract obligations",
+      "prompt": "Find the processor-contract elements and cite the exact span.",
+      "document_ids": ["gdpr-eu-001"],
+      "expected_answer": "Processor terms must set out subject matter, duration, nature, purpose, data types, and data-subject categories.",
+      "gold_citations": [
+        {
+          "document_id": "gdpr-eu-001",
+          "section_id": "28.3",
+          "quote": "subject matter, duration, nature, purpose, data types, and categories of data subjects",
+          "jurisdiction": "EU"
+        }
+      ],
+      "gold_redline_ops": [],
+      "gold_tool_calls": [
+        { "name": "jurisdiction_filter", "args": { "jurisdiction": "EU" } },
+        { "name": "legal_research", "args": { "document": "gdpr-eu-001" } },
+        { "name": "citation_grounder", "args": { "section": "28.3" } }
+      ],
+      "jurisdiction_tag": "EU",
+      "regression_expected_for": ["model-swap-regression"]
+    }
+  ]
+}
