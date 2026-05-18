@@ -2,14 +2,20 @@
 
 A fully local evaluation harness for legal AI agents that need defensible regression testing across model upgrades. The project grades four failure modes that matter in professional legal work:
 
-- citation faithfulness against exact source spans
-- redline correctness with section-aware costs
-- jurisdiction grounding
-- plan and tool-routing recall
+- citation faithfulness against exact source spans - redline correctness with section-aware costs - jurisdiction grounding - plan and tool-routing recall
 
-The load-bearing citation metric is deterministic and does not use an LLM judge. The demo target is synthetic, local, and designed to make regressions obvious without sending data to external services.
+## Problem shape
 
-## Quick Start
+Local legal-agent evaluation harness for citation grounding, redlines, jurisdiction, and tool routing.
+
+## What the harness exercises
+
+- Replays the main `legora-eval` scenario from source-controlled fixtures.
+- Pushes degraded `Legal Agent Evaluation Harness` cases through the same path as clean cases, then compares the evidence.
+- Frames `Legal Agent Evaluation Harness` as a working evaluator rather than a static concept mock.
+- Leaves `legora-eval` generated state outside git while keeping the rebuild path short.
+
+## Local workflow
 
 ```bash
 uv sync
@@ -19,18 +25,21 @@ uv run legora-eval verify
 uv run legora-eval dashboard
 ```
 
-Open `outputs/dashboard.html` after running the dashboard command.
+## Review surfaces
 
-## What It Produces
+- `outputs/summary.json` for headline metrics and gate status
+- `outputs/reports.json` for per-case results
+- `outputs/dashboard.html` for visual inspection
+- `outputs/demo-pack.zip` or `outputs/demo_pack/` for portable review
 
-- `runs/latest/results.duckdb` with run, case, model, and metric rows
-- `outputs/summary.json` with aggregate leaderboard metrics
-- `outputs/regression_report.json` with precision and detected model-swap failures
-- `outputs/dashboard.html` with self-contained visual drilldowns
-- `outputs/demo_pack/` with a portable evidence bundle
+## Quality checks
 
-## Design Notes
+```bash
+uv run ruff check .
+uv run pytest -q
+uv run legora-eval verify
+```
 
-The harness intentionally separates plan quality from answer quality. A legal agent can sometimes produce the right answer through the wrong workflow, which hides future reliability and cost regressions. This project grades the trace separately so routing regressions surface immediately.
+## Repository hygiene
 
-All fixtures are public-domain-shaped synthetic documents. No client data, private legal data, credentials, or external API calls are required.
+Every example in `legora-eval` is fabricated for repeatability. Generated outputs are rebuildable artifacts, not source material.
