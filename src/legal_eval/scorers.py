@@ -4,8 +4,8 @@ import math
 import re
 from collections.abc import Sequence
 
-from legora_eval.corpus import SuiteFile, section_index, section_meta
-from legora_eval.models import AgentTrace, Citation, EvalCase, RedlineOp, ToolCall
+from legal_eval.corpus import SuiteFile, section_index, section_meta
+from legal_eval.models import AgentTrace, Citation, EvalCase, RedlineOp, ToolCall
 
 
 TOKEN_RE = re.compile(r"[a-z0-9]+")

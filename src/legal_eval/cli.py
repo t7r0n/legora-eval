@@ -6,8 +6,8 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
-from legora_eval.dashboard import benchmark_summary, build_dashboard
-from legora_eval.runner import export_demo_pack, init_demo, run_suite, verify_outputs
+from legal_eval.dashboard import benchmark_summary, build_dashboard
+from legal_eval.runner import export_demo_pack, init_demo, run_suite, verify_outputs
 
 app = typer.Typer(help="Local legal-agent eval harness.")
 console = Console()

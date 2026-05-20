@@ -1,5 +1,5 @@
 [project]
-name = "legora-eval"
+name = "legal-eval"
 version = "0.1.0"
 description = "Local legal-agent evaluation harness for citation grounding, redlines, jurisdiction, and tool routing."
 readme = "README.md"
@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.scripts]
-legora-eval = "legora_eval.cli:main"
+legal-eval = "legal_eval.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.9.21,<0.10.0"]

@@ -5,7 +5,7 @@ from pathlib import Path
 import duckdb
 from jinja2 import Environment, select_autoescape
 
-from legora_eval.models import RunSummary, project_root
+from legal_eval.models import RunSummary, project_root
 
 TEMPLATE = """
 <!doctype html>
@@ -114,9 +114,9 @@ def build_dashboard() -> Path:
     root = project_root()
     summary_path = root / "outputs" / "summary.json"
     if not summary_path.exists():
-        raise FileNotFoundError("Run `uv run legora-eval run` before generating dashboard.")
+        raise FileNotFoundError("Run `uv run legal-eval run` before generating dashboard.")
     summary = RunSummary.model_validate_json(summary_path.read_text(encoding="utf-8"))
-    from legora_eval.runner import verify_outputs
+    from legal_eval.runner import verify_outputs
 
     verification = verify_outputs()
     env = Environment(autoescape=select_autoescape(["html", "xml"]))
@@ -134,7 +134,7 @@ def benchmark_summary() -> dict[str, float]:
     root = project_root()
     db_path = root / "runs" / "latest" / "results.duckdb"
     if not db_path.exists():
-        raise FileNotFoundError("Run `uv run legora-eval run` first.")
+        raise FileNotFoundError("Run `uv run legal-eval run` first.")
     conn = duckdb.connect(str(db_path), read_only=True)
     row = conn.execute(
         """

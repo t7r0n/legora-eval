@@ -10,19 +10,19 @@ Local legal-agent evaluation harness for citation grounding, redlines, jurisdict
 
 ## What the harness exercises
 
-- Replays the main `legora-eval` scenario from source-controlled fixtures.
+- Replays the main `legal-eval` scenario from source-controlled fixtures.
 - Pushes degraded `Legal Agent Evaluation Harness` cases through the same path as clean cases, then compares the evidence.
 - Frames `Legal Agent Evaluation Harness` as a working evaluator rather than a static concept mock.
-- Leaves `legora-eval` generated state outside git while keeping the rebuild path short.
+- Leaves `legal-eval` generated state outside git while keeping the rebuild path short.
 
 ## Local workflow
 
 ```bash
 uv sync
-uv run legora-eval init-demo
-uv run legora-eval run --iterations 4
-uv run legora-eval verify
-uv run legora-eval dashboard
+uv run legal-eval init-demo
+uv run legal-eval run --iterations 4
+uv run legal-eval verify
+uv run legal-eval dashboard
 ```
 
 ## Review surfaces
@@ -37,9 +37,9 @@ uv run legora-eval dashboard
 ```bash
 uv run ruff check .
 uv run pytest -q
-uv run legora-eval verify
+uv run legal-eval verify
 ```
 
 ## Repository hygiene
 
-Every example in `legora-eval` is fabricated for repeatability. Generated outputs are rebuildable artifacts, not source material.
+Every example in `legal-eval` is fabricated for repeatability. Generated outputs are rebuildable artifacts, not source material.

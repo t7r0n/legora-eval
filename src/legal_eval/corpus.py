@@ -5,7 +5,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from legora_eval.models import EvalCase, LegalDocument, project_root
+from legal_eval.models import EvalCase, LegalDocument, project_root
 
 
 class SuiteFile(BaseModel):

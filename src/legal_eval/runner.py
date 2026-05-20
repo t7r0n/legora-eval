@@ -10,9 +10,9 @@ from typing import Any
 
 import duckdb
 
-from legora_eval.corpus import SuiteFile, load_suite
-from legora_eval.models import AgentTrace, CaseResult, Citation, MetricBundle, RedlineOp, RunSummary, ToolCall, project_root
-from legora_eval.scorers import harmonic_quality, regression_precision, score_case
+from legal_eval.corpus import SuiteFile, load_suite
+from legal_eval.models import AgentTrace, CaseResult, Citation, MetricBundle, RedlineOp, RunSummary, ToolCall, project_root
+from legal_eval.scorers import harmonic_quality, regression_precision, score_case
 
 MODELS = ("frontier-legal-a", "frontier-legal-b", "model-swap-regression")
 
@@ -226,7 +226,7 @@ def verify_outputs() -> dict[str, Any]:
     report_path = root / "outputs" / "regression_report.json"
     db_path = root / "runs" / "latest" / "results.duckdb"
     if not summary_path.exists() or not report_path.exists() or not db_path.exists():
-        raise FileNotFoundError("Run `uv run legora-eval run` before verification.")
+        raise FileNotFoundError("Run `uv run legal-eval run` before verification.")
     summary = RunSummary.model_validate_json(summary_path.read_text(encoding="utf-8"))
     report = json.loads(report_path.read_text(encoding="utf-8"))
     conn = duckdb.connect(str(db_path), read_only=True)

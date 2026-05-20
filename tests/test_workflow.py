@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from legora_eval.corpus import load_suite
-from legora_eval.dashboard import build_dashboard
-from legora_eval.models import Citation, RedlineOp
-from legora_eval.runner import init_demo, run_suite, synthesize_trace, verify_outputs
-from legora_eval.scorers import score_citations, score_redlines
+from legal_eval.corpus import load_suite
+from legal_eval.dashboard import build_dashboard
+from legal_eval.models import Citation, RedlineOp
+from legal_eval.runner import init_demo, run_suite, synthesize_trace, verify_outputs
+from legal_eval.scorers import score_citations, score_redlines
 
 
 def test_end_to_end_run_and_verify() -> None:
